@@ -339,13 +339,13 @@ static int show_dhcp_range(void)
     OVSREC_DHCPSRV_RANGE_FOR_EACH(row, idl){
 
         if (row->prefix_len) {
-            snprintf(prefix_len, 8, "%ld", row->prefix_len[0]);
+            snprintf(prefix_len, 8, "%"PRId64, row->prefix_len[0]);
         } else {
             snprintf(prefix_len, 8, "%s", "*");
         }
 
         if (row->lease_duration) {
-            snprintf(lease_duration, 16, "%ld", row->lease_duration[0]);
+            snprintf(lease_duration, 16, "%"PRId64, row->lease_duration[0]);
         } else {
             snprintf(lease_duration, 16, "%s", "*");
         }
@@ -418,7 +418,7 @@ static int show_dhcp_host(void)
     OVSREC_DHCPSRV_STATIC_HOST_FOR_EACH(row, idl){
 
         if (row->lease_duration) {
-            snprintf(lease_duration, 16, "%ld", row->lease_duration[0]);
+            snprintf(lease_duration, 16, "%"PRId64, row->lease_duration[0]);
         } else {
             snprintf(lease_duration, 16, "%s", "*");
         }
@@ -541,7 +541,7 @@ static int show_dhcp_options(void)
     OVSREC_DHCPSRV_OPTION_FOR_EACH(row, idl){
 
         if (row->option_number) {
-            snprintf(option_number, 8, "%ld", row->option_number[0]);
+            snprintf(option_number, 8, "%"PRId64, row->option_number[0]);
         } else {
             snprintf(option_number, 8, "%s", "*");
         }
@@ -602,7 +602,7 @@ static int show_dhcp_match(void)
     OVSREC_DHCPSRV_MATCH_FOR_EACH(row, idl){
 
         if (row->option_number) {
-            snprintf(option_number, 8, "%ld", row->option_number[0]);
+            snprintf(option_number, 8, "%"PRId64, row->option_number[0]);
         } else {
             snprintf(option_number, 8, "%s", "*");
         }
@@ -2213,11 +2213,11 @@ static int dhcp_server_add_range(dhcp_srv_range_params_t *range_params)
 
         /* Check if max limit of ranges is already configured */
         if (dhcp_server_row->n_ranges >= MAX_DHCP_RANGES_CONFIG) {
-            vty_out(vty, "Maximum limit for dhcp ranges config (%lu) "
+            vty_out(vty, "Maximum limit for dhcp ranges config (%zu) "
                          "is already configured. Please delete any unused "
                          "dhcp range and then add new range.%s",
                           dhcp_server_row->n_ranges, VTY_NEWLINE);
-            VLOG_ERR("Maximum limit for dhcp ranges config (%lu) "
+            VLOG_ERR("Maximum limit for dhcp ranges config (%zu) "
                      "is already configured.",
                       dhcp_server_row->n_ranges);
             cli_do_config_abort(status_txn);
